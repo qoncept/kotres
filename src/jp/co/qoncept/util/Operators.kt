@@ -21,3 +21,17 @@ infix fun <T, E: Exception> Result<T, E>.or(alternative: Result<T, E>): Result<T
         is Result.Failure -> alternative
     }
 }
+
+inline infix fun <T, E: Exception> Result<T, E>.or(alternative: () -> T): T {
+    return when (this) {
+        is Result.Success -> value
+        is Result.Failure -> alternative()
+    }
+}
+
+inline infix fun <T, E: Exception> Result<T, E>.or(alternative: () -> Result<T, E>): Result<T, E> {
+    return when (this) {
+        is Result.Success -> this
+        is Result.Failure -> alternative()
+    }
+}
