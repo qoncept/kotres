@@ -20,21 +20,20 @@ sealed class Result<out T, out E: Exception> {
     }
 }
 
-inline fun <T, R, ER: Exception, E1: ER, E2: ER> Result<T, E1>.flatMap(transform: (T) -> Result<R, E2>): Result<R, ER> {
+inline fun <T, R, E: Exception> Result<T, E>.flatMap(transform: (T) -> Result<R, E>): Result<R, E> {
    return when (this) {
        is Result.Success -> transform(value)
        is Result.Failure -> Result.Failure(exception)
    }
 }
 
-fun <T, R, ER: Exception, E1: ER, E2: ER> Result<T, E1>.apply(transform: Result<(T) -> R, E2>): Result<R, ER> {
+fun <T, R, E: Exception> Result<T, E>.apply(transform: Result<(T) -> R, E>): Result<R, E> {
     return when (this) {
         is Result.Success -> transform.map { it(value) }
         is Result.Failure -> Result.Failure(exception)
     }
 }
 
-fun <T, E: Exception, E1: E, E2: E> Result<Result<T, E2>, E1>.flatten(): Result<T, E> {
+fun <T, E: Exception> Result<Result<T, E>, E>.flatten(): Result<T, E> {
     return flatMap { it }
 }
-
