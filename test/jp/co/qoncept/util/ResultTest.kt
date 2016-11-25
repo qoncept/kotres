@@ -208,6 +208,3 @@ class ResultTest {
     }
 }
 
-private open class AnimalException : Exception() {}
-private class DogException : AnimalException() {}
-private class CatException : AnimalException() {}
