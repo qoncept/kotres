@@ -142,5 +142,41 @@ class ResultTest {
             assertEquals(flattened.exception, a.value?.exception)
         }
     }
+
+    @Test
+    fun mapFailure() {
+        run {
+            val a = Success<Int, DogException>(42)
+            val b = a.mapFailure { CatException() }
+            assertEquals(b.value, 42)
+        }
+
+        run {
+            val a = Failure<Int, DogException>(DogException())
+            val b = a.mapFailure { CatException() }
+            assertTrue(b.exception is CatException)
+        }
+    }
+
+    @Test
+    fun flatMapFailure() {
+        run {
+            val a = Success<Int, DogException>(42)
+            val b = a.flatMapFailure { Failure<Int, CatException>(CatException()) }
+            assertEquals(b.value, 42)
+        }
+
+        run {
+            val a = Failure<Int, DogException>(DogException())
+            val b = a.flatMapFailure { Success<Int, CatException>(42) }
+            assertEquals(b.value, 42)
+        }
+
+        run {
+            val a = Failure<Int, DogException>(DogException())
+            val b = a.flatMapFailure { Failure<Int, CatException>(CatException()) }
+            assertTrue(b.exception is CatException)
+        }
+    }
 }
 
