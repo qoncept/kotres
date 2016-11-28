@@ -37,3 +37,17 @@ fun <T, R, E: Exception> Result<T, E>.apply(transform: Result<(T) -> R, E>): Res
 fun <T, E: Exception> Result<Result<T, E>, E>.flatten(): Result<T, E> {
     return flatMap { it }
 }
+
+inline fun <T, E: Exception, ER: Exception> Result<T, E>.mapFailure(transform: (E) -> ER): Result<T, ER> {
+    return when (this) {
+        is Result.Success -> Result.Success(value)
+        is Result.Failure -> Result.Failure(transform(exception))
+    }
+}
+
+inline fun <T, E: Exception, ER: Exception> Result<T, E>.flatMapFailure(transform: (E) -> Result<T, ER>): Result<T, ER> {
+    return when (this) {
+        is Result.Success -> Result.Success(value)
+        is Result.Failure -> transform(exception)
+    }
+}
