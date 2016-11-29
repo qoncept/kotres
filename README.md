@@ -17,11 +17,11 @@ when (number) {
     is Failure -> print(number.exception.message)
 }
 
-// Monadic methods
+// Monadic methods (`map`, `flatMap`)
 val diameter: Result<Double, NumberFormatException> = number.map { 2 * Math.PI * it }
 val area: Result<Double, NumberFormatException> = diameter.flatMap { d -> number.map { r -> d * r / 2 } }
 
-// Operators
+// Operators (`mp` as `<$>`, `ap` as `<*>`)
 data class Person(val firstName: String, val lastName: String, val age: Int)
 
 val firstName: Result<String, JsonException> = json["firstName"].string
