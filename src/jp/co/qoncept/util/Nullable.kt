@@ -20,9 +20,10 @@ fun <T: Any> Result<T?, Exception>.flatten(): Result<T, Exception> {
     return flatMap<T?, T> { it }
 }
 
-inline fun <T, E: Exception, ER: Exception> Result<T, E>.flatMapFailure(transform: (E) -> ER?): Result<T, Exception> {
-    return when (this) {
-        is Result.Success -> Result.Success(value)
-        is Result.Failure -> transform(exception)?.let { Failure<T, Exception>(it) } ?: Failure(KotlinNullPointerException())
-    }
-}
+// Temporarily disabled because of compilation errors by Kotlin 1.0
+//inline fun <T, E: Exception, ER: Exception> Result<T, E>.flatMapFailure(transform: (E) -> ER?): Result<T, Exception> {
+//    return when (this) {
+//        is Result.Success -> Result.Success(value)
+//        is Result.Failure -> transform(exception)?.let { Failure<T, Exception>(it) } ?: Failure(KotlinNullPointerException())
+//    }
+//}
