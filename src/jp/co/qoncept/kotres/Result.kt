@@ -1,4 +1,4 @@
-package jp.co.qoncept.util
+package jp.co.qoncept.kotres
 
 sealed class Result<out T, out E: Exception> {
     abstract val value: T?

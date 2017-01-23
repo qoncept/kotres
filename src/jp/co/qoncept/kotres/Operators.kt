@@ -1,4 +1,4 @@
-package jp.co.qoncept.util
+package jp.co.qoncept.kotres
 
 infix fun <T, R, E: Exception> ((T) -> R).mp(result: Result<T, E>): Result<R, E> {
     return result.map(this)
