@@ -11,12 +11,12 @@ sealed class Result<out T, out E: Exception> {
     class Failure<T, E: Exception>(override val exception: E): Result<T, E>() {
         override val value: T? = null
     }
+}
 
-    inline fun <R> map(transform: (T) -> R): Result<R, E> {
-        return when (this) {
-            is Success -> Success(transform(value))
-            is Failure -> Failure(exception)
-        }
+inline fun <T, R, E: Exception> Result<T, E>.map(transform: (T) -> R): Result<R, E> {
+    return when (this) {
+        is Result.Success -> Result.Success(transform(value))
+        is Result.Failure -> Result.Failure(exception)
     }
 }
 
