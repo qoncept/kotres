@@ -1,9 +1,9 @@
-package jp.co.qoncept.util
+package jp.co.qoncept.kotres
 
 import org.testng.Assert.*
 import org.testng.annotations.Test
 
-import jp.co.qoncept.util.Result.*
+import jp.co.qoncept.kotres.Result.*
 
 class OperatorsTest {
     @Test
